@@ -1,29 +1,22 @@
 # vue-tutorial-expense-tracker
 
-This template should help get you started developing with Vue 3 in Vite.
+An web application for learning the basics of vue.js
+This web application allows you to add and delete your transactions to keep track of your expenses, income as well as total amount of transaction.
 
-## Recommended IDE Setup
+### To Clone
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```
+git clone https://github.com/nisuJaiswal/vue-tutorial-expense-tracker.git
 ```
 
-### Compile and Hot-Reload for Development
+### Install Dependencies
 
-```sh
+```
+npm i
+```
+
+### Run Sevelopment Server
+
+```
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
 ```
