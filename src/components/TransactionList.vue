@@ -7,15 +7,14 @@
       :class="trans.amount > 0 ? 'plus' : 'minus'"
     >
       {{ trans.text }} <span> ₹ {{ trans.amount }}</span
-      ><button class="delete-btn">x</button>
+      ><button class="delete-btn" @click="deleteTransaction(trans.id)">
+        x
+      </button>
     </li>
-    <!-- <li class="minus">
-      Cash <span>-$400</span><button class="delete-btn">x</button>
-    </li> -->
   </ul>
 </template>
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   transactions: {
@@ -23,4 +22,11 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["dataDeleted"]);
+
+// Delete Transaction
+const deleteTransaction = (id) => {
+  emit("dataDeleted", id);
+};
 </script>

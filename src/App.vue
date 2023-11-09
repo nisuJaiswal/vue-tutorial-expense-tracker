@@ -2,9 +2,12 @@
   <Header />
   <div class="container">
     <Balance :total="total" />
-    <IncomeExpenses :income="income" :expense="expense" />
-    <TransactionList :transactions="transactions" />
-    <AddTransactions />
+    <IncomeExpenses :income="+income" :expense="+expense" />
+    <TransactionList
+      :transactions="transactions"
+      @dataDeleted="handleDataDeleted"
+    />
+    <AddTransactions @dataAdded="handleDataAdded" />
   </div>
 </template>
 
@@ -14,14 +17,18 @@ import Balance from "./components/Balance.vue";
 import IncomeExpenses from "./components/IncomeExpenses.vue";
 import TransactionList from "./components/TransactionList.vue";
 import AddTransactions from "./components/AddTransactions.vue";
-import { computed, ref } from "vue";
+import { v4 as uuid } from "uuid";
+import { useToast } from "vue-toastification";
+import { computed, ref, onMounted } from "vue";
 
-const transactions = ref([
-  { id: 1, text: "Pizza", amount: -560 },
-  { id: 2, text: "Coffee", amount: 130 },
-  { id: 3, text: "Freelance", amount: -400 },
-  { id: 4, text: "Dept Pay", amount: 300 },
-]);
+// Similar to useEffect
+onMounted(() => {
+  const existingData = JSON.parse(localStorage.getItem("transaction"));
+  if (existingData) transactions.value = existingData;
+});
+
+const toast = useToast();
+const transactions = ref([]);
 
 // Get Total
 const total = computed(() => {
@@ -40,6 +47,7 @@ const income = computed(() => {
     }, 0)
     .toFixed(2);
 });
+
 // Get Expenses
 const expense = computed(() => {
   return transactions.value
@@ -49,4 +57,27 @@ const expense = computed(() => {
     }, 0)
     .toFixed(2);
 });
+
+// Save to Local Storage
+const saveToLS = () => {
+  localStorage.setItem("transaction", JSON.stringify(transactions.value));
+};
+
+// Add data into Transaction
+const handleDataAdded = (transData) => {
+  transactions.value.push({
+    id: uuid(),
+    text: transData.text,
+    amount: transData.amount,
+  });
+  saveToLS();
+  toast.success("Transaction added Successfully");
+};
+
+// Handle Data Deleted
+const handleDataDeleted = (id) => {
+  transactions.value = transactions.value.filter((trans) => trans.id !== id);
+  saveToLS();
+  toast.success("Transaction Deleted Successfully");
+};
 </script>
